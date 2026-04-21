@@ -39,15 +39,15 @@ class GlassNavigationBar extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
           child: Container(
-            height: 90,
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            height: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: userRole == UserRole.actor 
                 ? [
                     _buildNavItem(context, 0, LucideIcons.home, 'Casting'),
                     _buildNavItem(context, 1, LucideIcons.messageSquare, 'Messages'),
-                    _buildNavItem(context, 2, LucideIcons.tv, 'Mes Postulations'),
+                    _buildNavItem(context, 2, LucideIcons.tv, 'Candidatures'),
                     _buildNavItem(context, 3, LucideIcons.user, 'Profil'),
                   ]
                 : [
@@ -74,8 +74,8 @@ class GlassNavigationBar extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
         padding: isSelected
-            ? const EdgeInsets.symmetric(horizontal: 20, vertical: 12)
-            : const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 10)
+            : const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(32),
@@ -88,16 +88,20 @@ class GlassNavigationBar extends StatelessWidget {
               color: isSelected 
                 ? Colors.white 
                 : (isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
-              size: 24,
+              size: 22,
             ),
             if (isSelected) ...[
-              const SizedBox(width: 8),
-              Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ]

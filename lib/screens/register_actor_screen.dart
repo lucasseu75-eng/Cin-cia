@@ -6,6 +6,7 @@ import '../widgets/custom_text_field.dart';
 import '../models/user_role.dart';
 import '../providers/auth_provider.dart';
 import 'main_screen.dart';
+import '../utils/page_transitions.dart';
 
 class RegisterActorScreen extends ConsumerWidget {
   const RegisterActorScreen({super.key});
@@ -110,7 +111,7 @@ class RegisterActorScreen extends ConsumerWidget {
 
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (_) => const MainScreen()),
+                  CineciaTransition(page: const MainScreen()),
                   (route) => false,
                 );
               },

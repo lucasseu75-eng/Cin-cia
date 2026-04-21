@@ -4,7 +4,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../theme/app_colors.dart';
 import '../providers/theme_provider.dart';
 import 'complete_profile_screen.dart';
-import 'onboarding_screen.dart';
+import 'role_selection_screen.dart';
+import '../utils/page_transitions.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -182,9 +183,9 @@ class ProfileScreen extends ConsumerWidget {
                 onTap: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+                    CineciaTransition(page: const RoleSelectionScreen()),
                     (route) => false,
-                 );
+                  );
                 },
                 child: Container(
                   width: double.infinity,

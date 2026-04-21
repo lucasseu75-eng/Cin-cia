@@ -42,7 +42,24 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     return Scaffold(
       extendBody: true, 
-      body: screens[_currentIndex],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        switchInCurve: Curves.easeOutQuart,
+        switchOutCurve: Curves.easeInQuart,
+        transitionBuilder: (Widget child, Animation<double> animation) {
+          return FadeTransition(
+            opacity: animation,
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.96, end: 1.0).animate(animation),
+              child: child,
+            ),
+          );
+        },
+        child: Container(
+          key: ValueKey<int>(_currentIndex),
+          child: screens[_currentIndex],
+        ),
+      ),
       bottomNavigationBar: GlassNavigationBar(
         currentIndex: _currentIndex,
         userRole: userRole,

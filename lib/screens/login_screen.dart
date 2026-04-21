@@ -6,6 +6,7 @@ import '../widgets/custom_text_field.dart';
 import '../models/user_role.dart';
 import '../providers/auth_provider.dart';
 import 'main_screen.dart';
+import '../utils/page_transitions.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -117,7 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (_) => const MainScreen()),
+                  CineciaTransition(page: const MainScreen()),
                   (route) => false,
                 );
               },
