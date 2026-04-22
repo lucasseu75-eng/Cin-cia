@@ -20,16 +20,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final textSecondary = isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final surfaceColor = isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight;
+    final borderColor = isDarkMode ? AppColors.borderDark : AppColors.borderLight;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
           icon: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: surfaceColor,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: borderColor),
+              boxShadow: !isDarkMode ? AppColors.shadowLight : null,
             ),
-            child: const Icon(Icons.arrow_back_ios_new, size: 16),
+            child: Icon(Icons.arrow_back_ios_new, size: 16, color: textPrimary),
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -42,12 +54,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             const SizedBox(height: 24),
             Text(
               'Connexion',
-              style: Theme.of(context).textTheme.displayMedium,
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                color: textPrimary,
+              ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Accédez à votre univers artistique.',
-              style: TextStyle(color: AppColors.textBody, fontSize: 16),
+              style: TextStyle(color: textSecondary, fontSize: 16),
             ),
             const SizedBox(height: 32),
             // Temporary Role Selector for Demo
@@ -59,14 +73,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: _selectedRole == UserRole.actor ? AppColors.primary : AppColors.surface,
+                        color: _selectedRole == UserRole.actor ? AppColors.primary : surfaceColor,
                         borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: borderColor),
+                        boxShadow: !isDarkMode && _selectedRole != UserRole.actor ? AppColors.shadowLight : null,
                       ),
                       child: Center(
                         child: Text(
                           'ACTEUR',
                           style: TextStyle(
-                            color: _selectedRole == UserRole.actor ? Colors.white : AppColors.textBody,
+                            color: _selectedRole == UserRole.actor ? Colors.white : textSecondary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -81,14 +97,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: _selectedRole == UserRole.agent ? AppColors.primary : AppColors.surface,
+                        color: _selectedRole == UserRole.agent ? AppColors.primary : surfaceColor,
                         borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: borderColor),
+                        boxShadow: !isDarkMode && _selectedRole != UserRole.agent ? AppColors.shadowLight : null,
                       ),
                       child: Center(
                         child: Text(
                           'AGENT',
                           style: TextStyle(
-                            color: _selectedRole == UserRole.agent ? Colors.white : AppColors.textBody,
+                            color: _selectedRole == UserRole.agent ? Colors.white : textSecondary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -126,15 +144,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             const SizedBox(height: 32),
             Row(
               children: [
-                const Expanded(child: Divider(color: AppColors.surface, thickness: 2)),
+                Expanded(child: Divider(color: borderColor, thickness: 1)),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     'OU',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 12),
+                    style: TextStyle(color: textSecondary, fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const Expanded(child: Divider(color: AppColors.surface, thickness: 2)),
+                Expanded(child: Divider(color: borderColor, thickness: 1)),
               ],
             ),
             const SizedBox(height: 32),
@@ -142,25 +160,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 56),
-                side: BorderSide.none,
-                backgroundColor: AppColors.surface,
+                backgroundColor: surfaceColor,
+                side: BorderSide(color: borderColor),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'G',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
+                  Image.asset(
+                    'assets/icon/icone-google.png',
+                    height: 24,
                   ),
                   const SizedBox(width: 12),
-                  const Text(
+                  Text(
                     'Continuer avec Google',
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),

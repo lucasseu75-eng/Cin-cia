@@ -15,6 +15,9 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,12 +25,13 @@ class CustomTextField extends StatelessWidget {
           label.toUpperCase(),
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontSize: 12,
+                color: textPrimary,
               ),
         ),
         const SizedBox(height: 4),
         TextFormField(
           obscureText: isPassword,
-          style: const TextStyle(color: AppColors.white),
+          style: TextStyle(color: textPrimary),
           decoration: InputDecoration(
             hintText: placeholder,
           ),

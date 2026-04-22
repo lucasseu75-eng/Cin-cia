@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../widgets/glass_nav_bar.dart';
 import '../models/user_role.dart';
 import '../providers/auth_provider.dart';
-import 'messages_screen.dart';
+import 'demo_screen.dart';
 import 'actor_feed_screen.dart';
 import 'my_castings_screen.dart';
 import 'profile_screen.dart';
@@ -26,14 +26,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     final List<Widget> actorScreens = [
       const ActorFeedScreen(),
-      const MessagesScreen(),
+      const DemoScreen(),
       const MyCastingsScreen(),
       const ProfileScreen(),
     ];
 
     final List<Widget> agentScreens = [
       const AgentHomeScreen(),
-      const MessagesScreen(), // Contacts
+      const DemoScreen(), // Demos
       const MyOffersScreen(), // Casting
       const ProfileScreen(), // Profil
     ];

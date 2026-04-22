@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'onboarding_screen.dart';
+import '../utils/app_branding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -169,7 +170,7 @@ class _SplashScreenState extends State<SplashScreen>
                   child: Opacity(
                     opacity: _textOpacity.value,
                     child: Text(
-                      'Cinéci',
+                      AppBranding.animationTitle,
                       style: TextStyle(
                         fontSize: 60,
                         fontWeight: FontWeight.bold,

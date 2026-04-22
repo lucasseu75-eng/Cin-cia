@@ -15,8 +15,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final textSecondary = isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final surfaceColor = isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight;
+    final borderColor = isDarkMode ? AppColors.borderDark : AppColors.borderLight;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -30,17 +37,19 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.surface,
+                        color: surfaceColor,
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: borderColor),
+                        boxShadow: !isDarkMode ? AppColors.shadowLight : null,
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new, color: AppColors.white, size: 16),
+                      child: Icon(Icons.arrow_back_ios_new, color: textPrimary, size: 16),
                     ),
                   ),
                   const Spacer(),
-                  const Text(
+                  Text(
                     'Mon Profil',
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: textPrimary,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -68,7 +77,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                             height: 120,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(36),
-                              border: Border.all(color: AppColors.surface, width: 2),
+                              border: Border.all(color: surfaceColor, width: 2),
+                              boxShadow: !isDarkMode ? AppColors.shadowLight : null,
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(34),
@@ -95,16 +105,16 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     const SizedBox(height: 32),
 
                     // NOM / PRÉNOM
-                    _buildLabel('NOM / PRÉNOM'),
+                    _buildLabel('NOM / PRÉNOM', textSecondary),
                     const SizedBox(height: 8),
-                    _buildTextField(hintText: 'Lucas'),
+                    _buildTextField(hintText: 'Lucas', surface: surfaceColor, text: textPrimary, sec: textSecondary, border: borderColor),
 
                     const SizedBox(height: 20),
 
                     // NOM DE SCÈNE
-                    _buildLabel('NOM DE SCÈNE'),
+                    _buildLabel('NOM DE SCÈNE', textSecondary),
                     const SizedBox(height: 8),
-                    _buildTextField(hintText: 'Optionnel'),
+                    _buildTextField(hintText: 'Optionnel', surface: surfaceColor, text: textPrimary, sec: textSecondary, border: borderColor),
 
                     const SizedBox(height: 20),
 
@@ -115,21 +125,22 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildLabel("TRANCHE D'ÂGE"),
+                              _buildLabel("TRANCHE D'ÂGE", textSecondary),
                               const SizedBox(height: 8),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 decoration: BoxDecoration(
-                                  color: AppColors.surface,
+                                  color: surfaceColor,
                                   borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: borderColor),
                                 ),
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
                                     value: _selectedAge,
                                     isExpanded: true,
-                                    dropdownColor: AppColors.surface,
-                                    style: const TextStyle(color: AppColors.white, fontSize: 14),
-                                    icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.textBody),
+                                    dropdownColor: surfaceColor,
+                                    style: TextStyle(color: textPrimary, fontSize: 14),
+                                    icon: Icon(Icons.keyboard_arrow_down, color: textSecondary),
                                     items: _ageOptions
                                         .map((age) => DropdownMenuItem(value: age, child: Text(age)))
                                         .toList(),
@@ -147,9 +158,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildLabel('LOCALISATION'),
+                              _buildLabel('LOCALISATION', textSecondary),
                               const SizedBox(height: 8),
-                              _buildTextField(hintText: 'Paris'),
+                              _buildTextField(hintText: 'Paris', surface: surfaceColor, text: textPrimary, sec: textSecondary, border: borderColor),
                             ],
                           ),
                         ),
@@ -159,36 +170,37 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                     const SizedBox(height: 20),
 
                     // LANGUES PARLÉES
-                    _buildLabel('LANGUES PARLÉES'),
+                    _buildLabel('LANGUES PARLÉES', textSecondary),
                     const SizedBox(height: 8),
-                    _buildTextField(hintText: 'Français, Anglais'),
+                    _buildTextField(hintText: 'Français, Anglais', surface: surfaceColor, text: textPrimary, sec: textSecondary, border: borderColor),
 
                     const SizedBox(height: 20),
 
                     // COMPÉTENCES
-                    _buildLabel('COMPÉTENCES (DANSE, CHANT...)'),
+                    _buildLabel('COMPÉTENCES (DANSE, CHANT...)', textSecondary),
                     const SizedBox(height: 8),
-                    _buildTextField(hintText: 'Théâtre, Danse'),
+                    _buildTextField(hintText: 'Théâtre, Danse', surface: surfaceColor, text: textPrimary, sec: textSecondary, border: borderColor),
 
                     const SizedBox(height: 20),
 
                     // EXPÉRIENCE / FILMOGRAPHIE
-                    _buildLabel('EXPÉRIENCE / FILMOGRAPHIE'),
+                    _buildLabel('EXPÉRIENCE / FILMOGRAPHIE', textSecondary),
                     const SizedBox(height: 8),
                     Container(
                       decoration: BoxDecoration(
-                        color: AppColors.surface,
+                        color: surfaceColor,
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: borderColor),
                       ),
                       child: TextFormField(
                         maxLines: 5,
-                        style: const TextStyle(color: AppColors.white, fontSize: 14),
+                        style: TextStyle(color: textPrimary, fontSize: 14),
                         initialValue:
                             "comédien polyvalent passionné par le cinéma d'auteur et le théâtre classique, 3 ans de formation au conservatoire national.",
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Décrivez votre expérience...',
-                          hintStyle: TextStyle(color: AppColors.textBody),
-                          contentPadding: EdgeInsets.all(16),
+                          hintStyle: TextStyle(color: textSecondary),
+                          contentPadding: const EdgeInsets.all(16),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
@@ -215,11 +227,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     );
   }
 
-  Widget _buildLabel(String text) {
+  Widget _buildLabel(String text, Color color) {
     return Text(
       text,
-      style: const TextStyle(
-        color: AppColors.textBody,
+      style: TextStyle(
+        color: color,
         fontSize: 11,
         fontWeight: FontWeight.bold,
         letterSpacing: 1.0,
@@ -227,17 +239,18 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     );
   }
 
-  Widget _buildTextField({required String hintText}) {
+  Widget _buildTextField({required String hintText, required Color surface, required Color text, required Color sec, required Color border}) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: surface,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: border),
       ),
       child: TextFormField(
-        style: const TextStyle(color: AppColors.white, fontSize: 14),
+        style: TextStyle(color: text, fontSize: 14),
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: const TextStyle(color: AppColors.textBody),
+          hintStyle: TextStyle(color: sec),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           border: InputBorder.none,
           enabledBorder: InputBorder.none,

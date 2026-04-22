@@ -3,7 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_colors.dart';
 import 'casting_detail_agent_screen.dart';
-import 'notifications_screen.dart';
+import '../widgets/cinecia_header.dart';
 
 class MyOffersScreen extends StatelessWidget {
   const MyOffersScreen({super.key});
@@ -18,114 +18,52 @@ class MyOffersScreen extends StatelessWidget {
     final borderColor = isDarkMode ? AppColors.borderDark : AppColors.borderLight;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Top Bar (Reproduced from AgentHomeScreen)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              isDarkMode ? const Color(0xFF8B2B2B) : const Color(0xFFFFD1D1),
+              isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.4],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // --- SECTION FIXE ---
+                const CineciaHeader(title: 'MES OFFRES'),
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 16),
                       Text(
-                        'CASTINGS',
-                        style: TextStyle(
-                          color: textPrimary,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      const Text(
-                        'ESPACE PRODUCTION',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 1.0,
-                        ),
+                        'Gérez vos castings et candidatures.',
+                        style: TextStyle(color: textSecondary, fontSize: 14),
+                      ).animate().fadeIn(duration: 400.ms, delay: 200.ms).slideX(begin: -0.1, end: 0),
+                      
+                      const SizedBox(height: 32),
+                      ListView(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          _buildOfferItem(context, 'L\'Ombre de Paris', 'Long Métrage', 'Paris', 4, surfaceColor, borderColor, textPrimary, textSecondary),
+                          _buildOfferItem(context, 'Série "Z" - Saison 2', 'Série TV', 'Abidjan', 12, surfaceColor, borderColor, textPrimary, textSecondary),
+                          _buildOfferItem(context, 'Pub Coca-Cola', 'Publicité', 'Londres', 8, surfaceColor, borderColor, textPrimary, textSecondary),
+                        ],
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      // Notification Icon
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const NotificationsScreen()),
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: surfaceColor,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: borderColor),
-                                boxShadow: !isDarkMode ? AppColors.shadowLight : null,
-                              ),
-                              child: Icon(LucideIcons.bell, color: textPrimary, size: 20),
-                            ),
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: surfaceColor, width: 1.5),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      // Profile Avatar
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: borderColor),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/user_avatar.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.2, end: 0),
-              
-              const SizedBox(height: 32),
-              Text(
-                'Gérez vos castings et candidatures.',
-                style: TextStyle(color: textSecondary, fontSize: 14),
-              ).animate().fadeIn(duration: 400.ms, delay: 200.ms).slideX(begin: -0.1, end: 0),
-              
-              const SizedBox(height: 32),
-              ListView(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  _buildOfferItem(context, 'L\'Ombre de Paris', 'Long Métrage', 'Paris', 4, surfaceColor, borderColor, textPrimary, textSecondary),
-                  _buildOfferItem(context, 'Série "Z" - Saison 2', 'Série TV', 'Abidjan', 12, surfaceColor, borderColor, textPrimary, textSecondary),
-                  _buildOfferItem(context, 'Pub Coca-Cola', 'Publicité', 'Londres', 8, surfaceColor, borderColor, textPrimary, textSecondary),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

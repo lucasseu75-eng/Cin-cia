@@ -13,16 +13,28 @@ class RegisterActorScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final textSecondary = isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final surfaceColor = isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight;
+    final borderColor = isDarkMode ? AppColors.borderDark : AppColors.borderLight;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: IconButton(
           icon: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.surface,
+              color: surfaceColor,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: borderColor),
+              boxShadow: !isDarkMode ? AppColors.shadowLight : null,
             ),
-            child: const Icon(Icons.arrow_back_ios_new, size: 16),
+            child: Icon(Icons.arrow_back_ios_new, size: 16, color: textPrimary),
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -34,37 +46,36 @@ class RegisterActorScreen extends ConsumerWidget {
           children: [
             Text(
               'Inscription Acteur',
-              style: Theme.of(context).textTheme.displayMedium,
+              style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                color: textPrimary,
+              ),
             ),
             const SizedBox(height: 4),
-            const Text(
+            Text(
               "Rejoignez l'élite du cinéma.",
-              style: TextStyle(color: AppColors.textBody, fontSize: 14),
+              style: TextStyle(color: textSecondary, fontSize: 14),
             ),
             const SizedBox(height: 16),
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 48),
-                side: BorderSide.none,
-                backgroundColor: AppColors.surface,
+                backgroundColor: surfaceColor,
+                side: BorderSide(color: borderColor),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'G',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                    ),
+                  Image.asset(
+                    'assets/icon/icone-google.png',
+                    height: 24,
                   ),
                   const SizedBox(width: 12),
-                  const Text(
+                  Text(
                     "S'inscrire avec Google",
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
@@ -75,15 +86,15 @@ class RegisterActorScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             Row(
               children: [
-                const Expanded(child: Divider(color: AppColors.surface, thickness: 2)),
+                Expanded(child: Divider(color: borderColor, thickness: 1)),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
                     'OU',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(fontSize: 12),
+                    style: TextStyle(color: textSecondary, fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const Expanded(child: Divider(color: AppColors.surface, thickness: 2)),
+                Expanded(child: Divider(color: borderColor, thickness: 1)),
               ],
             ),
             const SizedBox(height: 16),

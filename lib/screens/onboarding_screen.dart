@@ -7,6 +7,7 @@ import 'register_actor_screen.dart';
 import 'register_agent_screen.dart';
 import 'role_selection_screen.dart';
 import '../utils/page_transitions.dart';
+import '../utils/app_branding.dart';
 
 // --- MODÈLE DE DONNÉES MIS À JOUR ---
 class OnboardingData {
@@ -49,45 +50,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   int _currentIndex = 0;
   int _nextIndex = 0;
 
-  final List<OnboardingData> pages = [
-    OnboardingData(
-      title: "Mise en Scène",
-      subtitle: "Le rôle de votre vie commence ici",
-      description: "Accédez à des centaines de castings exclusifs et donnez une nouvelle dimension à votre carrière d'acteur ou de modèle.",
-      imagePath: 'assets/images/onboarding Cinécia_1.png',
-      bgColor: const Color(0xFF7B1A28),
-    ),
-    OnboardingData(
-      title: "La Sélection",
-      subtitle: "Trouvez le profil idéal en un clic",
-      description: "Filtrez par apparence, compétences et expérience pour dénicher la perle rare qui donnera vie à votre prochain chef-d'œuvre.",
-      imagePath: 'assets/images/onboarding Cinécia_2.png',
-      bgColor: const Color(0xFFFCE8E8),
-    ),
-    OnboardingData(
-      title: "Action !",
-      subtitle: "Prêt pour le premier clap ?",
-      description: "Rejoignez une communauté dynamique de professionnels du cinéma et commencez à postuler ou à recruter dès maintenant.",
-      imagePath: 'assets/images/onboarding Cinécia_3.png',
-      bgColor: const Color(0xFF7B1A28),
-    ),
-    OnboardingData(
-      title: "",
-      subtitle: "",
-      description: "",
-      imagePath: "",
-      bgColor: const Color(0xFF12141A), // Dark cinematic background for role choice
-      isLastPage: true,
-      isRoleChoice: true,
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();
     _transitionController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1200),
+      reverseDuration: const Duration(milliseconds: 1200),
     );
 
     _waveAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -109,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
     // NOUVEAU : Glissement de l'image (Sort par la gauche, entre par la droite)
     _slideImageAnimation = TweenSequence<Offset>([
       TweenSequenceItem(tween: Tween(begin: Offset.zero, end: const Offset(-150, 0)).chain(CurveTween(curve: Curves.easeIn)), weight: 40),
-      TweenSequenceItem(tween: ConstantTween(const Offset(150, 0)), weight: 20), // Pendant que c'est invisible, on le déplace à droite
+      TweenSequenceItem(tween: ConstantTween(const Offset(150, 0)), weight: 20), 
       TweenSequenceItem(tween: Tween(begin: const Offset(150, 0), end: Offset.zero).chain(CurveTween(curve: Curves.easeOut)), weight: 40),
     ]).animate(_transitionController);
 
@@ -121,10 +90,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
     ]).animate(_transitionController);
   }
 
-  void _onNextTap() {
+  void _onNextTap(int pagesLength) {
     if (_transitionController.isAnimating) return;
 
-    if (_currentIndex < pages.length - 1) {
+    if (_currentIndex < pagesLength - 1) {
       setState(() {
         _nextIndex = _currentIndex + 1;
       });
@@ -133,9 +102,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
           _currentIndex = _nextIndex;
         });
       });
-    } else {
-      // Logic for the button inside the role choice if needed, 
-      // but the role choice has its own buttons.
     }
   }
 
@@ -147,6 +113,44 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final textSecondary = isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+
+    final List<OnboardingData> pages = [
+      OnboardingData(
+        title: "Mise en Scène",
+        subtitle: "Le rôle de votre vie commence ici",
+        description: "Accédez à des centaines de castings exclusifs et donnez une nouvelle dimension à votre carrière d'acteur ou de modèle.",
+        imagePath: 'assets/images/onboarding Cinécia_1.png',
+        bgColor: const Color(0xFF7B1A28),
+      ),
+      OnboardingData(
+        title: "La Sélection",
+        subtitle: "Trouvez le profil idéal en un clic",
+        description: "Filtrez par apparence, compétences et expérience pour dénicher la perle rare qui donnera vie à votre prochain chef-d'œuvre.",
+        imagePath: 'assets/images/onboarding Cinécia_2.png',
+        bgColor: const Color(0xFFFCE8E8),
+      ),
+      OnboardingData(
+        title: "Action !",
+        subtitle: "Prêt pour le premier clap ?",
+        description: "Rejoignez une communauté dynamique de professionnels du cinéma et commencez à postuler ou à recruter dès maintenant.",
+        imagePath: 'assets/images/onboarding Cinécia_3.png',
+        bgColor: const Color(0xFF7B1A28),
+      ),
+      OnboardingData(
+        title: "",
+        subtitle: "",
+        description: "",
+        imagePath: "",
+        bgColor: backgroundColor, 
+        isLastPage: true,
+        isRoleChoice: true,
+      ),
+    ];
+
     return Scaffold(
       body: Stack(
         children: [
@@ -179,7 +183,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                 Color cardColor = isPinkBg ? const Color(0xFF7B1A28) : Colors.white;
                 Color buttonBgColor = isPinkBg ? const Color(0xFF7B1A28) : Colors.white;
                 Color buttonIconColor = isPinkBg ? Colors.white : const Color(0xFF7B1A28);
-                Color topIconColor = isPinkBg ? const Color(0xFF7B1A28) : Colors.white;
+                Color topIconColor = isPinkBg ? const Color(0xFF7B1A28) : (displayData.isRoleChoice ? textPrimary : Colors.white);
 
                 Color titleColor = isPinkBg ? Colors.white : const Color(0xFF2D2D2D);
                 Color subtitleColor = isPinkBg ? Colors.white : const Color(0xFF7B1A28);
@@ -200,21 +204,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: IconButton(
-                              icon: Icon(Icons.arrow_back_ios, color: topIconColor),
-                              onPressed: () {
-                                if (_currentIndex > 0) {
-                                  setState(() {
-                                    _nextIndex = _currentIndex - 1;
-                                  });
-                                  _transitionController.forward(from: 0.0).then((_) {
-                                    setState(() {
-                                      _currentIndex = _nextIndex;
-                                    });
-                                  });
-                                }
-                              },
-                            ),
+                            child: (displayIndex > 0 && !displayData.isRoleChoice)
+                                ? IconButton(
+                                    icon: Icon(Icons.arrow_back_ios, color: topIconColor),
+                                    onPressed: () {
+                                      if (_currentIndex > 0) {
+                                        setState(() {
+                                          _nextIndex = _currentIndex - 1;
+                                        });
+                                        _transitionController.forward(from: 0.0).then((_) {
+                                          setState(() {
+                                            _currentIndex = _nextIndex;
+                                          });
+                                        });
+                                      }
+                                    },
+                                  )
+                                : const SizedBox(height: 48, width: 48), 
                           ),
                         ),
 
@@ -239,27 +245,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                                   ),
                                   const SizedBox(height: 16),
                                   Text(
-                                    'CINECIA',
+                                    AppBranding.fullTitle,
                                     style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                                      color: Colors.white,
+                                      color: textPrimary,
                                       fontSize: 32,
                                     ),
                                   ),
                                   const SizedBox(height: 12),
-                                  const Text(
+                                  Text(
                                     "L'excellence du casting\ncommence ici.",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: Colors.white70,
+                                      color: textSecondary,
                                       fontSize: 16,
                                       height: 1.5,
                                     ),
                                   ),
                                   const Spacer(),
-                                  const Text(
+                                  Text(
                                     'CRÉER UN COMPTE EN TANT QUE',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: textPrimary,
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.5,
@@ -286,7 +292,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                                     },
                                     style: OutlinedButton.styleFrom(
                                       minimumSize: const Size(double.infinity, 56),
-                                      side: const BorderSide(color: Colors.white24, width: 2),
                                     ).copyWith(
                                       side: WidgetStateProperty.all(const BorderSide(color: AppColors.primary, width: 1)),
                                     ),
@@ -313,14 +318,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                                       );
                                     },
                                     child: RichText(
-                                      text: const TextSpan(
+                                      text: TextSpan(
                                         text: 'Déjà un compte ? ',
-                                        style: TextStyle(color: Colors.white70, fontSize: 14),
+                                        style: TextStyle(color: textSecondary, fontSize: 14),
                                         children: [
                                           TextSpan(
                                             text: 'Se connecter',
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: textPrimary,
                                               fontWeight: FontWeight.bold,
                                               decoration: TextDecoration.underline,
                                             ),
@@ -373,7 +378,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(
-                              pages.length - 1, // Exclude the role selection page from dots
+                              pages.length - 1, 
                                   (index) => Container(
                                 margin: const EdgeInsets.symmetric(horizontal: 4),
                                 width: displayIndex == index ? 24 : 8,
@@ -447,7 +452,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
                                 // Le Bouton
                                 GestureDetector(
-                                  onTap: _onNextTap,
+                                  onTap: () => _onNextTap(pages.length),
                                   child: Container(
                                     width: 70,
                                     height: 70,

@@ -8,8 +8,15 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final textSecondary = isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+    final surfaceColor = isDarkMode ? AppColors.surfaceDark : AppColors.surfaceLight;
+    final borderColor = isDarkMode ? AppColors.borderDark : AppColors.borderLight;
+
     return Scaffold(
-      backgroundColor: AppColors.backgroundDark,
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,27 +31,28 @@ class NotificationsScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceDark,
+                        color: surfaceColor,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderDark),
+                        border: Border.all(color: borderColor),
+                        boxShadow: !isDarkMode ? AppColors.shadowLight : null,
                       ),
-                      child: const Icon(LucideIcons.chevronLeft, color: Colors.white, size: 20),
+                      child: Icon(LucideIcons.chevronLeft, color: textPrimary, size: 20),
                     ),
                   ),
                   const SizedBox(width: 20),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'NOTIFICATIONS',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: textPrimary,
                           fontSize: 24,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.0,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'RESTEZ CONNECTÉ',
                         style: TextStyle(
                           color: AppColors.primary,
@@ -63,41 +71,65 @@ class NotificationsScreen extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                 children: [
-                   _buildSectionTitle('AUJOURD\'HUI').animate().fadeIn(delay: 200.ms),
+                   _buildSectionTitle('AUJOURD\'HUI', textSecondary).animate().fadeIn(delay: 200.ms),
                   const SizedBox(height: 16),
                   _buildNotificationItem(
+                    context: context,
                     title: 'Nouveau Casting',
                     message: 'Warner Bros a publié "L\'Ombre de Paris". Un rôle correspond à votre profil.',
                     time: '12:45',
                     icon: LucideIcons.clapperboard,
                     isUnread: true,
+                    surfaceColor: surfaceColor,
+                    borderColor: borderColor,
+                    textPrimary: textPrimary,
+                    textSecondary: textSecondary,
+                    isDarkMode: isDarkMode,
                   ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.1, end: 0),
                   const SizedBox(height: 16),
                   _buildNotificationItem(
+                    context: context,
                     title: 'Message Reçu',
                     message: 'Lucas Meyer vous a envoyé un nouveau script pour consultation.',
                     time: '09:30',
                     icon: LucideIcons.mail,
                     isUnread: true,
+                    surfaceColor: surfaceColor,
+                    borderColor: borderColor,
+                    textPrimary: textPrimary,
+                    textSecondary: textSecondary,
+                    isDarkMode: isDarkMode,
                   ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1, end: 0),
                   
                   const SizedBox(height: 40),
-                  _buildSectionTitle('PLUS TÔT').animate().fadeIn(delay: 500.ms),
+                  _buildSectionTitle('PLUS TÔT', textSecondary).animate().fadeIn(delay: 500.ms),
                   const SizedBox(height: 16),
                   _buildNotificationItem(
+                    context: context,
                     title: 'Profil Consulté',
                     message: 'Un agent de Pathé Films a consulté votre book artistique.',
                     time: 'HIER',
                     icon: LucideIcons.eye,
                     isUnread: false,
+                    surfaceColor: surfaceColor,
+                    borderColor: borderColor,
+                    textPrimary: textPrimary,
+                    textSecondary: textSecondary,
+                    isDarkMode: isDarkMode,
                   ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.1, end: 0),
                   const SizedBox(height: 16),
                   _buildNotificationItem(
+                    context: context,
                     title: 'Candidature Acceptée',
                     message: 'Votre candidature pour "Le Silence" a été retenue par la production.',
                     time: 'HIER',
                     icon: LucideIcons.checkCircle,
                     isUnread: false,
+                    surfaceColor: surfaceColor,
+                    borderColor: borderColor,
+                    textPrimary: textPrimary,
+                    textSecondary: textSecondary,
+                    isDarkMode: isDarkMode,
                   ).animate().fadeIn(delay: 700.ms).slideY(begin: 0.1, end: 0),
                 ],
               ),
@@ -108,11 +140,11 @@ class NotificationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title, Color color) {
     return Text(
       title,
-      style: const TextStyle(
-        color: AppColors.textSecondaryDark,
+      style: TextStyle(
+        color: color,
         fontSize: 12,
         fontWeight: FontWeight.w900,
         letterSpacing: 2.0,
@@ -121,21 +153,28 @@ class NotificationsScreen extends StatelessWidget {
   }
 
   Widget _buildNotificationItem({
+    required BuildContext context,
     required String title,
     required String message,
     required String time,
     required IconData icon,
     required bool isUnread,
+    required Color surfaceColor,
+    required Color borderColor,
+    required Color textPrimary,
+    required Color textSecondary,
+    required bool isDarkMode,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isUnread ? AppColors.primary.withOpacity(0.05) : AppColors.surfaceDark,
+        color: isUnread ? AppColors.primary.withOpacity(0.05) : surfaceColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: isUnread ? AppColors.primary.withOpacity(0.3) : AppColors.borderDark,
+          color: isUnread ? AppColors.primary.withOpacity(0.3) : borderColor,
           width: 1,
         ),
+        boxShadow: !isDarkMode && !isUnread ? AppColors.shadowLight : null,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,10 +182,10 @@ class NotificationsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isUnread ? AppColors.primary : AppColors.backgroundDark,
+              color: isUnread ? AppColors.primary : (isDarkMode ? AppColors.backgroundDark : const Color(0xFFF1F5F9)),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: Colors.white, size: 18),
+            child: Icon(icon, color: isUnread ? Colors.white : textPrimary, size: 18),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -158,16 +197,16 @@ class NotificationsScreen extends StatelessWidget {
                   children: [
                     Text(
                       title.toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: textPrimary,
                         fontSize: 14,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
                     Text(
                       time,
-                      style: const TextStyle(
-                        color: AppColors.textSecondaryDark,
+                      style: TextStyle(
+                        color: textSecondary,
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
                       ),
@@ -178,7 +217,7 @@ class NotificationsScreen extends StatelessWidget {
                 Text(
                   message,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: textPrimary.withOpacity(0.7),
                     fontSize: 12,
                     height: 1.4,
                   ),

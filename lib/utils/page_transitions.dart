@@ -7,8 +7,8 @@ class CineciaTransition extends PageRouteBuilder {
   CineciaTransition({required this.page})
       : super(
           pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionDuration: const Duration(milliseconds: 1000),
-          reverseTransitionDuration: const Duration(milliseconds: 800),
+          transitionDuration: const Duration(milliseconds: 600),
+          reverseTransitionDuration: const Duration(milliseconds: 500),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             
             return AnimatedBuilder(

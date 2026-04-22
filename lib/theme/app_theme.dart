@@ -17,32 +17,32 @@ class AppTheme {
         elevation: 0,
         centerTitle: true,
       ),
-      textTheme: GoogleFonts.interTextTheme(base.textTheme).copyWith(
-        displayLarge: GoogleFonts.inter(
+      textTheme: GoogleFonts.robotoTextTheme(base.textTheme).copyWith(
+        displayLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryDark,
           fontWeight: FontWeight.w900,
           letterSpacing: -1.0,
         ),
-        displayMedium: GoogleFonts.inter(
+        displayMedium: GoogleFonts.roboto(
           color: AppColors.textPrimaryDark,
           fontWeight: FontWeight.w800,
           letterSpacing: -0.5,
         ),
-        titleLarge: GoogleFonts.inter(
+        titleLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryDark,
           fontWeight: FontWeight.bold,
         ),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: GoogleFonts.roboto(
           color: AppColors.textPrimaryDark,
           fontWeight: FontWeight.w600,
         ),
-        bodyLarge: GoogleFonts.inter(
+        bodyLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryDark,
         ),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: GoogleFonts.roboto(
           color: AppColors.textSecondaryDark,
         ),
-        labelLarge: GoogleFonts.inter(
+        labelLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryDark,
           fontWeight: FontWeight.w800,
           letterSpacing: 2.0,
@@ -71,32 +71,32 @@ class AppTheme {
         iconTheme: IconThemeData(color: AppColors.textPrimaryLight),
         titleTextStyle: TextStyle(color: AppColors.textPrimaryLight, fontSize: 18, fontWeight: FontWeight.bold),
       ),
-      textTheme: GoogleFonts.interTextTheme(base.textTheme).copyWith(
-        displayLarge: GoogleFonts.inter(
+      textTheme: GoogleFonts.robotoTextTheme(base.textTheme).copyWith(
+        displayLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryLight,
           fontWeight: FontWeight.w900,
           letterSpacing: -1.0,
         ),
-        displayMedium: GoogleFonts.inter(
+        displayMedium: GoogleFonts.roboto(
           color: AppColors.textPrimaryLight,
           fontWeight: FontWeight.w800,
           letterSpacing: -0.5,
         ),
-        titleLarge: GoogleFonts.inter(
+        titleLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryLight,
           fontWeight: FontWeight.bold,
         ),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: GoogleFonts.roboto(
           color: AppColors.textPrimaryLight,
           fontWeight: FontWeight.w600,
         ),
-        bodyLarge: GoogleFonts.inter(
+        bodyLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryLight,
         ),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: GoogleFonts.roboto(
           color: AppColors.textSecondaryLight,
         ),
-        labelLarge: GoogleFonts.inter(
+        labelLarge: GoogleFonts.roboto(
           color: AppColors.textPrimaryLight,
           fontWeight: FontWeight.w800,
           letterSpacing: 2.0,
@@ -142,7 +142,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: GoogleFonts.roboto(
             fontWeight: FontWeight.w800,
             letterSpacing: 1.5,
             fontSize: 16,
@@ -160,7 +160,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
           ),
-          textStyle: GoogleFonts.inter(
+          textStyle: GoogleFonts.roboto(
             fontWeight: FontWeight.w800,
             letterSpacing: 1.5,
             fontSize: 16,
@@ -175,7 +175,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        labelStyle: GoogleFonts.inter(
+        labelStyle: GoogleFonts.roboto(
           color: labelColor,
           fontWeight: FontWeight.bold,
         ),

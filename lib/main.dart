@@ -4,6 +4,8 @@ import 'theme/app_theme.dart';
 import 'screens/splash_screen.dart';
 import 'providers/theme_provider.dart';
 
+import 'utils/app_branding.dart';
+
 void main() {
   runApp(
     const ProviderScope(
@@ -20,7 +22,7 @@ class CineciaApp extends ConsumerWidget {
     final themeMode = ref.watch(themeProvider);
 
     return MaterialApp(
-      title: 'CINECIA',
+      title: AppBranding.fullTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

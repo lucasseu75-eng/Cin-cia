@@ -4,9 +4,9 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:cinecia/theme/app_colors.dart';
 import 'package:cinecia/providers/casting_provider.dart';
 import 'package:cinecia/widgets/casting_card.dart';
-import 'package:cinecia/screens/casting_detail_screen.dart';
-import 'package:cinecia/screens/notifications_screen.dart';
+import 'package:cinecia/widgets/cinecia_header.dart';
 import 'package:cinecia/utils/page_transitions.dart';
+import 'package:cinecia/screens/casting_detail_screen.dart';
 
 class ActorFeedScreen extends ConsumerWidget {
   const ActorFeedScreen({super.key});
@@ -30,7 +30,7 @@ class ActorFeedScreen extends ConsumerWidget {
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: const [0.0, 0.4], // Adjusted stops for the fixed header
+            stops: const [0.0, 0.4],
           ),
         ),
         child: SafeArea(
@@ -39,96 +39,66 @@ class ActorFeedScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // --- SECTION FIXE (HAUT + PROFIL) ---
+              const CineciaHeader(title: 'ABIDJAN'),
+              
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
-                child: Column(
-                  children: [
-                    // Top row with Avatar, Location, Notification, Search
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 20,
-                          backgroundImage: AssetImage('assets/images/user_avatar.png'),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: !isDarkMode ? AppColors.shadowLight : null,
+                    border: isDarkMode ? Border.all(color: AppColors.borderDark) : null,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        const SizedBox(width: 12),
-                        Icon(LucideIcons.mapPin, color: colorScheme.onSurface, size: 14),
-                        const SizedBox(width: 4),
-                        Text('ABIDJAN', 
-                            style: TextStyle(color: colorScheme.onSurface, fontWeight: FontWeight.bold, fontSize: 12)),
-                        const Spacer(),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              CineciaTransition(page: const NotificationsScreen()),
-                            );
-                          },
-                          child: Icon(LucideIcons.bell, color: colorScheme.onSurface, size: 24),
-                        ),
-                        const SizedBox(width: 16),
-                        Icon(LucideIcons.search, color: colorScheme.onSurface, size: 24),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    // User Status Card
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: colorScheme.surface,
-                        borderRadius: BorderRadius.circular(24),
-                        boxShadow: !isDarkMode ? AppColors.shadowLight : null,
-                        border: isDarkMode ? Border.all(color: AppColors.borderDark) : null,
+                        child: const Icon(LucideIcons.user, color: Colors.white, size: 28),
                       ),
-                      child: Row(
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Lucas Seu', 
+                                style: TextStyle(color: colorScheme.onSurface, fontWeight: FontWeight.bold, fontSize: 18)),
+                            const SizedBox(height: 4),
+                            Text(
+                              'comédien polyvalent passionné par le cinéma d\'auteur et le théâtre classique...',
+                              style: TextStyle(
+                                color: colorScheme.onSurface.withOpacity(0.6), 
+                                fontSize: 11
+                              ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Row(
                         children: [
                           Container(
-                            width: 56,
-                            height: 56,
-                            decoration: BoxDecoration(
+                            width: 6,
+                            height: 6,
+                            decoration: const BoxDecoration(
                               color: AppColors.primary,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: const Icon(LucideIcons.user, color: Colors.white, size: 28),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Lucas Seu', 
-                                    style: TextStyle(color: colorScheme.onSurface, fontWeight: FontWeight.bold, fontSize: 18)),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'comédien polyvalent passionné par le cinéma d\'auteur et le théâtre classique...',
-                                  style: TextStyle(
-                                    color: colorScheme.onSurface.withOpacity(0.6), 
-                                    fontSize: 11
-                                  ),
-                                  maxLines: 2,
-                                ),
-                              ],
+                              shape: BoxShape.circle,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Row(
-                            children: [
-                              Container(
-                                width: 6,
-                                height: 6,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              const Text('ACTIF', 
-                                  style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, fontSize: 10)),
-                            ],
-                          ),
+                          const SizedBox(width: 4),
+                          const Text('ACTIF', 
+                              style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, fontSize: 10)),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               

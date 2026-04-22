@@ -6,20 +6,27 @@ import 'login_screen.dart';
 import 'register_actor_screen.dart';
 import 'register_agent_screen.dart';
 import '../utils/page_transitions.dart';
+import '../utils/app_branding.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+    final textPrimary = isDarkMode ? AppColors.textPrimaryDark : AppColors.textPrimaryLight;
+    final textSecondary = isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight;
+
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
               child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight - 64.0), // Subtract vertical padding
+                constraints: BoxConstraints(minHeight: constraints.maxHeight - 64.0),
                 child: IntrinsicHeight(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -43,15 +50,17 @@ class RoleSelectionScreen extends StatelessWidget {
                       ),
 
                       Text(
-                        'CINECIA',
-                        style: Theme.of(context).textTheme.displayMedium,
+                        AppBranding.fullTitle,
+                        style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                          color: textPrimary,
+                        ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
+                      Text(
                         "L'excellence du casting\ncommence ici.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: AppColors.textBody,
+                          color: textSecondary,
                           fontSize: 18,
                           height: 1.5,
                         ),
@@ -59,7 +68,9 @@ class RoleSelectionScreen extends StatelessWidget {
                       const Spacer(),
                       Text(
                         'CRÉER UN COMPTE EN TANT QUE',
-                        style: Theme.of(context).textTheme.labelLarge,
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: textPrimary,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       PrimaryButton(
@@ -82,7 +93,6 @@ class RoleSelectionScreen extends StatelessWidget {
                         },
                         style: OutlinedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 56),
-                          side: const BorderSide(color: AppColors.surface, width: 2),
                         ).copyWith(
                           side: WidgetStateProperty.all(const BorderSide(color: AppColors.primary, width: 1)),
                         ),
@@ -109,14 +119,14 @@ class RoleSelectionScreen extends StatelessWidget {
                           );
                         },
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: 'Déjà un compte ? ',
-                            style: TextStyle(color: AppColors.textBody, fontSize: 14),
+                            style: TextStyle(color: textSecondary, fontSize: 14),
                             children: [
                               TextSpan(
                                 text: 'Se connecter',
                                 style: TextStyle(
-                                  color: AppColors.white,
+                                  color: textPrimary,
                                   fontWeight: FontWeight.bold,
                                   decoration: TextDecoration.underline,
                                 ),

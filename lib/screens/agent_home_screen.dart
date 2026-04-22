@@ -7,6 +7,9 @@ import '../widgets/primary_button.dart';
 import 'actor_profile_detail_screen.dart';
 import 'create_offer_screen.dart';
 import 'notifications_screen.dart';
+import 'messages_screen.dart';
+import 'package:cinecia/widgets/cinecia_header.dart';
+import '../utils/page_transitions.dart';
 
 class AgentHomeScreen extends ConsumerWidget {
   const AgentHomeScreen({super.key});
@@ -21,169 +24,112 @@ class AgentHomeScreen extends ConsumerWidget {
     final borderColor = isDarkMode ? AppColors.borderDark : AppColors.borderLight;
 
     return Scaffold(
-      backgroundColor: backgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              isDarkMode ? const Color(0xFF8B2B2B) : const Color(0xFFFFD1D1),
+              isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: const [0.0, 0.4],
+          ),
+        ),
+        child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top Bar
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // --- SECTION FIXE ---
+            const CineciaHeader(title: 'CANDIDATS'),
+            
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'CANDIDATS',
-                        style: TextStyle(
-                          color: textPrimary,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      Text(
-                        'ESPACE PRODUCTION',
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ],
-                  ),
+                  const SizedBox(height: 16),
+                  
+                  // Header Stats (Reduced Size)
                   Row(
                     children: [
-                      // Notification Icon with Badge
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const NotificationsScreen()),
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: surfaceColor,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: borderColor),
-                                boxShadow: !isDarkMode ? AppColors.shadowLight : null,
-                              ),
-                              child: Icon(LucideIcons.bell, color: textPrimary, size: 20),
+                      Expanded(child: _buildStatCard(context, 'CANDIDATS', '4', surfaceColor, borderColor, textSecondary, textPrimary).animate().fadeIn(duration: 400.ms, delay: 100.ms).slideX(begin: -0.1, end: 0)),
+                      const SizedBox(width: 16),
+                      Expanded(child: _buildStatCard(context, 'OFFRES ACTIVES', '3', surfaceColor, borderColor, textSecondary, textPrimary).animate().fadeIn(duration: 400.ms, delay: 200.ms).slideX(begin: 0.1, end: 0)),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  
+                  // Publish Button
+                  PrimaryButton(
+                    text: 'PUBLIER UN CASTING',
+                    icon: const Icon(LucideIcons.plus),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CreateOfferScreen()),
+                      );
+                    },
+                  ).animate().fadeIn(duration: 400.ms, delay: 300.ms).scale(begin: const Offset(0.95, 0.95), end: const Offset(1, 1)),
+                  const SizedBox(height: 24),
+                  
+                  // List Title
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Tous les Candidats',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 18,
+                              color: textPrimary,
                             ),
-                            Positioned(
-                              top: 10,
-                              right: 10,
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: surfaceColor, width: 1.5),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
-                      const SizedBox(width: 12),
-                      // Profile Avatar
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: borderColor),
-                          image: const DecorationImage(
-                            image: AssetImage('assets/images/user_avatar.png'),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('FILTRER',
+                            style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1.0)),
                       ),
                     ],
                   ),
-                ],
-              ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.2, end: 0),
-              const SizedBox(height: 32),
-              
-              // Header Stats
-              Row(
-                children: [
-                  Expanded(child: _buildStatCard(context, 'CANDIDATS', '4', surfaceColor, borderColor, textSecondary, textPrimary).animate().fadeIn(duration: 400.ms, delay: 100.ms).slideX(begin: -0.1, end: 0)),
-                  const SizedBox(width: 16),
-                  Expanded(child: _buildStatCard(context, 'OFFRES ACTIVES', '3', surfaceColor, borderColor, textSecondary, textPrimary).animate().fadeIn(duration: 400.ms, delay: 200.ms).slideX(begin: 0.1, end: 0)),
+                  const SizedBox(height: 8),
                 ],
               ),
-              const SizedBox(height: 32),
-              
-              // Publish Button
-              PrimaryButton(
-                text: 'PUBLIER UN CASTING',
-                icon: const Icon(LucideIcons.plus),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const CreateOfferScreen()),
-                  );
-                },
-              ).animate().fadeIn(duration: 400.ms, delay: 300.ms).scale(begin: const Offset(0.95, 0.95), end: const Offset(1, 1)),
-              const SizedBox(height: 40),
-              
-              // List Title
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+
+            // --- SECTION DÉFILANTE ---
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Tous les Candidats',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 22,
-                            color: textPrimary,
-                          ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('FILTRER',
-                        style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1.0)),
-                  ),
+                  _buildApplicationItem(context, 'Lucas Seu', 'LONG MÉTRAGE : "L\'OMBRE DE PARIS"', 'PIANO • ESCRIME', '30-40 ans', 'Paris, France', '2024-05-10', surfaceColor, borderColor, textPrimary, textSecondary),
+                  _buildApplicationItem(context, 'Perez Morel', 'LONG MÉTRAGE : "L\'OMBRE DE PARIS"', 'CHANT • DANSE', '20-30 ans', 'Lyon, France', '2024-05-11', surfaceColor, borderColor, textPrimary, textSecondary),
+                  _buildApplicationItem(context, 'Falcao Junior', 'LONG MÉTRAGE : "L\'OMBRE DE PARIS"', 'BOXE • ÉQUITATION', '25-35 ans', 'Abidjan, CI', '2024-05-12', surfaceColor, borderColor, textPrimary, textSecondary),
                 ],
               ),
-              const SizedBox(height: 16),
-              _buildApplicationItem(context, 'Lucas Seu', 'LONG MÉTRAGE : "L\'OMBRE DE PARIS"', 'PIANO • ESCRIME', '30-40 ans', 'Paris, France', '2024-05-10', surfaceColor, borderColor, textPrimary, textSecondary),
-              _buildApplicationItem(context, 'Perez Morel', 'LONG MÉTRAGE : "L\'OMBRE DE PARIS"', 'CHANT • DANSE', '20-30 ans', 'Lyon, France', '2024-05-11', surfaceColor, borderColor, textPrimary, textSecondary),
-              _buildApplicationItem(context, 'Falcao Junior', 'LONG MÉTRAGE : "L\'OMBRE DE PARIS"', 'BOXE • ÉQUITATION', '25-35 ans', 'Abidjan, CI', '2024-05-12', surfaceColor, borderColor, textPrimary, textSecondary),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildStatCard(BuildContext context, String label, String value, Color surface, Color border, Color labelColor, Color valueColor) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: surface,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: border),
         boxShadow: Theme.of(context).brightness == Brightness.light ? AppColors.shadowLight : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: labelColor, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.0)),
-          const SizedBox(height: 8),
-          Text(value, style: TextStyle(color: valueColor, fontSize: 32, fontWeight: FontWeight.w900)),
+          Text(label, style: TextStyle(color: labelColor, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1.0)),
+          const SizedBox(height: 4),
+          Text(value, style: TextStyle(color: valueColor, fontSize: 24, fontWeight: FontWeight.w900)),
         ],
       ),
     );

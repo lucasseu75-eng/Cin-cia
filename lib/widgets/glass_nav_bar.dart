@@ -1,8 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../theme/app_colors.dart';
-
 import '../models/user_role.dart';
 
 class GlassNavigationBar extends StatelessWidget {
@@ -21,93 +20,46 @@ class GlassNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode ? const Color(0xFF12141A).withOpacity(0.8) : Colors.white.withOpacity(0.9),
-        border: isDarkMode 
-          ? Border(top: BorderSide(color: Colors.white.withOpacity(0.05), width: 1))
-          : null,
-        boxShadow: !isDarkMode ? [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          )
-        ] : null,
-      ),
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-          child: Container(
-            height: 80,
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: userRole == UserRole.actor 
-                ? [
-                    _buildNavItem(context, 0, LucideIcons.home, 'Casting'),
-                    _buildNavItem(context, 1, LucideIcons.messageSquare, 'Messages'),
-                    _buildNavItem(context, 2, LucideIcons.tv, 'Candidatures'),
-                    _buildNavItem(context, 3, LucideIcons.user, 'Profil'),
-                  ]
-                : [
-                    _buildNavItem(context, 0, LucideIcons.home, 'Candidat'),
-                    _buildNavItem(context, 1, LucideIcons.messageSquare, 'Contacts'),
-                    _buildNavItem(context, 2, LucideIcons.briefcase, 'Casting'),
-                    _buildNavItem(context, 3, LucideIcons.user, 'Profil'),
-                  ],
-            ),
-          ),
-        ),
-      ),
+    // Background of the bar itself
+    final Color barColor = isDarkMode ? const Color(0xFF1A1D23) : Colors.white;
+    
+    // The background of the screen content (for the curve cutout illusion)
+    final Color backgroundColor = isDarkMode ? AppColors.backgroundDark : AppColors.backgroundLight;
+
+    final List<IconData> icons = userRole == UserRole.actor 
+      ? [
+          LucideIcons.home,
+          LucideIcons.playCircle,
+          LucideIcons.tv,
+          LucideIcons.user,
+        ]
+      : [
+          LucideIcons.home,
+          LucideIcons.playCircle,
+          LucideIcons.briefcase,
+          LucideIcons.user,
+        ];
+
+    return CurvedNavigationBar(
+      index: currentIndex,
+      height: 70.0,
+      items: icons.map((icon) => _buildIcon(icon, icons.indexOf(icon) == currentIndex, isDarkMode)).toList(),
+      color: barColor,
+      buttonBackgroundColor: AppColors.primary,
+      backgroundColor: backgroundColor,
+      animationCurve: Curves.easeInOutCubic,
+      animationDuration: const Duration(milliseconds: 500),
+      onTap: onTap,
     );
   }
 
-  Widget _buildNavItem(BuildContext context, int index, IconData icon, String label) {
-    final isSelected = currentIndex == index;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return GestureDetector(
-      onTap: () => onTap(index),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutCubic,
-        padding: isSelected
-            ? const EdgeInsets.symmetric(horizontal: 14, vertical: 10)
-            : const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(32),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isSelected 
-                ? Colors.white 
-                : (isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight),
-              size: 22,
-            ),
-            if (isSelected) ...[
-              const SizedBox(width: 6),
-              Flexible(
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-            ]
-          ],
-        ),
-      ),
+  Widget _buildIcon(IconData icon, bool isSelected, bool isDarkMode) {
+    return Icon(
+      icon,
+      size: 26,
+      color: isSelected 
+        ? Colors.white 
+        : (isDarkMode ? Colors.white70 : Colors.black54),
     );
   }
 }
