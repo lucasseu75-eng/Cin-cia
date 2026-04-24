@@ -30,12 +30,14 @@ class GlassNavigationBar extends StatelessWidget {
       ? [
           LucideIcons.home,
           LucideIcons.playCircle,
+          LucideIcons.video,
           LucideIcons.tv,
           LucideIcons.user,
         ]
       : [
           LucideIcons.home,
           LucideIcons.playCircle,
+          LucideIcons.video,
           LucideIcons.briefcase,
           LucideIcons.user,
         ];

@@ -3,9 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../theme/app_colors.dart';
 import '../providers/theme_provider.dart';
+import '../providers/auth_provider.dart';
+import '../models/user_role.dart';
 import 'complete_profile_screen.dart';
+import 'login_screen.dart';
 import 'role_selection_screen.dart';
 import '../utils/page_transitions.dart';
+import 'my_results_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -15,6 +19,7 @@ class ProfileScreen extends ConsumerWidget {
     final themeMode = ref.watch(themeProvider);
     final isDarkMode = themeMode == ThemeMode.dark;
     final colorScheme = Theme.of(context).colorScheme;
+    final userRole = ref.watch(userRoleProvider);
 
     return Scaffold(
       body: Container(
@@ -66,27 +71,56 @@ class ProfileScreen extends ConsumerWidget {
                 const SizedBox(height: 48),
 
                 // Avatar
-                Container(
-                  width: 140,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(44),
-                    border: Border.all(color: AppColors.primary, width: 4),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.1),
-                        blurRadius: 20,
-                        spreadRadius: 2,
+                Stack(
+                  children: [
+                    Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(44),
+                        border: Border.all(color: AppColors.primary, width: 4),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.1),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(40),
-                    child: Image.asset(
-                      'assets/images/user_avatar.png',
-                      fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(40),
+                        child: Image.asset(
+                          'assets/images/user_avatar.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 2,
+                      right: 2,
+                      child: GestureDetector(
+                        onTap: () {
+                          // TODO: open image picker
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(LucideIcons.camera, color: Colors.white, size: 20),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 24),
 
@@ -178,6 +212,44 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
 
+                // Résultats de casting (acteur uniquement)
+                if (userRole == UserRole.actor) ...([
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CineciaTransition(page: const MyResultsScreen()),
+                      );
+                    },
+                    child: _buildSettingsCard(
+                      context,
+                      icon: LucideIcons.award,
+                      title: 'Mes résultats',
+                      subtitle: 'RÉSULTATS DE VOS CANDIDATURES',
+                      trailing: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Icon(Icons.arrow_forward_ios,
+                              color: isDarkMode ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                              size: 16),
+                          Positioned(
+                            top: -6,
+                            right: -6,
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ]),
+
                 // Sécurité
                 _buildSettingsCard(
                   context,
@@ -195,7 +267,7 @@ class ProfileScreen extends ConsumerWidget {
                   onTap: () {
                     Navigator.pushAndRemoveUntil(
                       context,
-                      CineciaTransition(page: const RoleSelectionScreen()),
+                      CineciaTransition(page: const LoginScreen()),
                       (route) => false,
                     );
                   },

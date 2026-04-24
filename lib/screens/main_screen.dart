@@ -9,6 +9,7 @@ import 'my_castings_screen.dart';
 import 'profile_screen.dart';
 import 'agent_home_screen.dart';
 import 'my_offers_screen.dart';
+import 'casting/casting_hub_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -27,15 +28,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final List<Widget> actorScreens = [
       const ActorFeedScreen(),
       const DemoScreen(),
+      const CastingHubScreen(),
       const MyCastingsScreen(),
       const ProfileScreen(),
     ];
 
     final List<Widget> agentScreens = [
       const AgentHomeScreen(),
-      const DemoScreen(), // Demos
-      const MyOffersScreen(), // Casting
-      const ProfileScreen(), // Profil
+      const DemoScreen(),
+      const CastingHubScreen(),
+      const MyOffersScreen(),
+      const ProfileScreen(),
     ];
 
     final screens = userRole == UserRole.actor ? actorScreens : agentScreens;

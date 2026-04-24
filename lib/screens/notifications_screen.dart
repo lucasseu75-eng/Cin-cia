@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_colors.dart';
+import '../utils/page_transitions.dart';
+import 'casting_result_screen.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
@@ -73,6 +75,30 @@ class NotificationsScreen extends StatelessWidget {
                 children: [
                    _buildSectionTitle('AUJOURD\'HUI', textSecondary).animate().fadeIn(delay: 200.ms),
                   const SizedBox(height: 16),
+                  
+                  // Notification résultat de casting (tappable)
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      CineciaTransition(page: const CastingResultScreen(status: CastingResultStatus.selected)),
+                    ),
+                    child: _buildNotificationItem(
+                      context: context,
+                      title: '🎉 Résultat de casting',
+                      message: 'Félicitations ! Vous êtes sélectionné pour le rôle dans "In The Shadow". Appuyez pour voir le résultat.',
+                      time: '10:15',
+                      icon: LucideIcons.award,
+                      isUnread: true,
+                      accentColor: Colors.green,
+                      surfaceColor: surfaceColor,
+                      borderColor: borderColor,
+                      textPrimary: textPrimary,
+                      textSecondary: textSecondary,
+                      isDarkMode: isDarkMode,
+                    ),
+                  ).animate().fadeIn(delay: 250.ms).slideY(begin: 0.1, end: 0),
+                  const SizedBox(height: 16),
+                  
                   _buildNotificationItem(
                     context: context,
                     title: 'Nouveau Casting',
@@ -164,14 +190,16 @@ class NotificationsScreen extends StatelessWidget {
     required Color textPrimary,
     required Color textSecondary,
     required bool isDarkMode,
+    Color? accentColor,
   }) {
+    final Color activeColor = accentColor ?? AppColors.primary;
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: isUnread ? AppColors.primary.withOpacity(0.05) : surfaceColor,
+        color: isUnread ? activeColor.withOpacity(0.05) : surfaceColor,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: isUnread ? AppColors.primary.withOpacity(0.3) : borderColor,
+          color: isUnread ? activeColor.withOpacity(0.3) : borderColor,
           width: 1,
         ),
         boxShadow: !isDarkMode && !isUnread ? AppColors.shadowLight : null,
@@ -182,7 +210,7 @@ class NotificationsScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: isUnread ? AppColors.primary : (isDarkMode ? AppColors.backgroundDark : const Color(0xFFF1F5F9)),
+              color: isUnread ? activeColor : (isDarkMode ? AppColors.backgroundDark : const Color(0xFFF1F5F9)),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(icon, color: isUnread ? Colors.white : textPrimary, size: 18),

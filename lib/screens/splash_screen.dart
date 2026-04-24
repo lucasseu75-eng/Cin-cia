@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<Color?> _textColor;
   late Animation<double> _textOpacity;
 
-  final Color cineciRed = const Color(0xFF7B1A28);
+  final Color cineciRed = const Color(0xFFD84444);
   final Color cineciWhite = Colors.white;
   @override
   void initState() {
@@ -171,11 +171,10 @@ class _SplashScreenState extends State<SplashScreen>
                     opacity: _textOpacity.value,
                     child: Text(
                       AppBranding.animationTitle,
-                      style: TextStyle(
+                      style: GoogleFonts.itim(
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
                         color: _textColor.value,
-                        fontFamily: 'SF Pro Display',
                         letterSpacing: 1.0,
                       ),
                     ),

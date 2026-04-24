@@ -124,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
         subtitle: "Le rôle de votre vie commence ici",
         description: "Accédez à des centaines de castings exclusifs et donnez une nouvelle dimension à votre carrière d'acteur ou de modèle.",
         imagePath: 'assets/images/onboarding Cinécia_1.png',
-        bgColor: const Color(0xFF7B1A28),
+        bgColor: AppColors.primary,
       ),
       OnboardingData(
         title: "La Sélection",
@@ -138,7 +138,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
         subtitle: "Prêt pour le premier clap ?",
         description: "Rejoignez une communauté dynamique de professionnels du cinéma et commencez à postuler ou à recruter dès maintenant.",
         imagePath: 'assets/images/onboarding Cinécia_3.png',
-        bgColor: const Color(0xFF7B1A28),
+        bgColor: AppColors.primary,
       ),
       OnboardingData(
         title: "",
@@ -180,17 +180,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
                 bool isPinkBg = displayIndex == 1;
 
-                Color cardColor = isPinkBg ? const Color(0xFF7B1A28) : Colors.white;
-                Color buttonBgColor = isPinkBg ? const Color(0xFF7B1A28) : Colors.white;
-                Color buttonIconColor = isPinkBg ? Colors.white : const Color(0xFF7B1A28);
-                Color topIconColor = isPinkBg ? const Color(0xFF7B1A28) : (displayData.isRoleChoice ? textPrimary : Colors.white);
+                Color cardColor = isPinkBg ? AppColors.primary : Colors.white;
+                Color buttonBgColor = isPinkBg ? AppColors.primary : Colors.white;
+                Color buttonIconColor = isPinkBg ? Colors.white : AppColors.primary;
+                Color topIconColor = isPinkBg ? AppColors.primary : (displayData.isRoleChoice ? textPrimary : Colors.white);
 
                 Color titleColor = isPinkBg ? Colors.white : const Color(0xFF2D2D2D);
-                Color subtitleColor = isPinkBg ? Colors.white : const Color(0xFF7B1A28);
-                Color descColor = isPinkBg ? Colors.white70 : const Color(0xFF7B1A28).withOpacity(0.8);
+                Color subtitleColor = isPinkBg ? Colors.white : AppColors.primary;
+                
+                // Color specifically requested: #2C2D2F for screens 1 & 3, White for screen 2
+                Color descColor;
+                if (displayIndex == 0 || displayIndex == 2) {
+                  descColor = const Color(0xFF2C2D2F);
+                } else if (displayIndex == 1) {
+                  descColor = Colors.white.withOpacity(0.9);
+                } else {
+                  descColor = isPinkBg ? Colors.white70 : AppColors.primary.withOpacity(0.8);
+                }
 
                 Color circleColor = isPinkBg
-                    ? const Color(0xFF7B1A28).withOpacity(0.06)
+                    ? AppColors.primary.withOpacity(0.06)
                     : Colors.white.withOpacity(0.08);
 
                 return Transform.scale(
