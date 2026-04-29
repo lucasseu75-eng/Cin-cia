@@ -38,15 +38,26 @@ class CastingHubScreen extends ConsumerWidget {
             child: Column(
               children: [
                 const CineciaHeader(title: 'CASTING'),
-                TabBar(
-                  indicatorColor: AppColors.primary,
-                  labelColor: AppColors.primary,
-                  unselectedLabelColor: isDarkMode ? Colors.white54 : Colors.black54,
-                  indicatorWeight: 3,
-                  tabs: const [
-                    Tab(text: 'En ligne'),
-                    Tab(text: 'Sur site'),
-                  ],
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: isDarkMode ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  child: TabBar(
+                    indicatorColor: AppColors.primary,
+                    indicatorWeight: 3,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    labelColor: AppColors.primary,
+                    unselectedLabelColor: isDarkMode ? Colors.white54 : Colors.black54,
+                    tabs: const [
+                      Tab(text: 'En ligne'),
+                      Tab(text: 'Sur site'),
+                    ],
+                  ),
                 ),
                 Expanded(
                   child: TabBarView(

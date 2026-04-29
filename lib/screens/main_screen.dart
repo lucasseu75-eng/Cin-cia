@@ -6,10 +6,12 @@ import '../providers/auth_provider.dart';
 import 'demo_screen.dart';
 import 'actor_feed_screen.dart';
 import 'my_castings_screen.dart';
+import 'my_results_screen.dart';
 import 'profile_screen.dart';
 import 'agent_home_screen.dart';
 import 'my_offers_screen.dart';
 import 'casting/casting_hub_screen.dart';
+import 'dashboard_agent_screen.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -30,7 +32,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const DemoScreen(),
       const CastingHubScreen(),
       const MyCastingsScreen(),
-      const ProfileScreen(),
     ];
 
     final List<Widget> agentScreens = [
@@ -38,7 +39,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       const DemoScreen(),
       const CastingHubScreen(),
       const MyOffersScreen(),
-      const ProfileScreen(),
+      const DashboardAgentScreen(),
     ];
 
     final screens = userRole == UserRole.actor ? actorScreens : agentScreens;
