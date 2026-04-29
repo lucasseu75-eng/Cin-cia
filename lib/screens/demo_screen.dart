@@ -167,9 +167,33 @@ class _DemoScreenState extends State<DemoScreen> {
                 ),
               ),
               const SizedBox(width: 10),
+              // 🔲 List/Grid Toggle
+              GestureDetector(
+                onTap: () => setState(() => _isGridView = !_isGridView),
+                child: Container(
+                  height: 42,
+                  width: 42,
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? AppColors.surfaceDark.withOpacity(0.6) : Colors.white.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: isDarkMode ? AppColors.borderDark : Colors.grey[300]!.withOpacity(0.5)),
+                  ),
+                  child: Icon(
+                    _isGridView ? LucideIcons.list : LucideIcons.layoutGrid, 
+                    size: 18, 
+                    color: AppColors.primary
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
               // ⚙️ Filter
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  // TODO: Implement filter logic
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Filtres avancés bientôt disponibles')),
+                  );
+                },
                 child: Container(
                   height: 42,
                   width: 42,
